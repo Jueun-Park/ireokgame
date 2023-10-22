@@ -4,19 +4,30 @@
 	let number = 0;
 	let gameEnded = false;
 	let isCounting = false;
+	let touchCount = 0;
 
 	let players = [];
 	let playerID = 0;
 
 	let intervalID;
 
-	function startIncreasing() {
+	function startIncreasing(e) {
+		touchCount++;
+		if (isCounting) {
+			return;
+		}
+
 		isCounting = true;
-		intervalID = setInterval(increaseNumber, 100);
+		intervalID = setInterval(() => number++, 100);
+		return;
 	}
 
-	function stopIncreasing() {
+	function stopIncreasing(e) {
 		if (!isCounting) {
+			return;
+		}
+		if (touchCount > 1) {
+			touchCount--;
 			return;
 		}
 		clearInterval(intervalID);
@@ -28,10 +39,8 @@
 		playerID++;
 		number = 0;
 		isCounting = false;
-	}
-
-	function increaseNumber() {
-		number++;
+		touchCount--;
+		return;
 	}
 
 	function endGame() {
@@ -62,19 +71,17 @@
 		</div>
 
 		<button
-			id="increase-button"
-			on:mousedown={startIncreasing}
-			on:mouseup={stopIncreasing}
-			on:mouseleave={stopIncreasing}
-		>
-			누르고 있으세요
-		</button>
+			class="increase-button"
+			on:pointerdown|preventDefault|nonpassive={startIncreasing}
+			on:pointerleave|preventDefault|nonpassive={stopIncreasing}
+			on:touchmove|preventDefault|nonpassive|stopPropagation={(e) => {}}
+		/>
 
-		<button id="endGameButton" on:click={endGame}>게임 끝내기</button>
+		<button class="game-button end-game-button" on:click={endGame}>게임 끝내기</button>
 	{/if}
 
 	{#if gameEnded}
-		<button id="restart" on:click={restart}>게임 다시하기</button>
+		<button class="game-button restart-button" on:click={restart}>게임 다시하기</button>
 	{/if}
 
 	<div>
@@ -87,6 +94,7 @@
 
 <style>
 	.game-container {
+		user-select: none;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -97,15 +105,32 @@
 	.counter {
 		width: 10rem;
 		background-color: azure;
-		font-family: monospace;
+		font-family: 'Sometype Mono', monospace;
 		font-size: 40px;
 		text-align: right;
 	}
 
-	button#increase-button {
+	.increase-button {
 		margin: 1rem;
-		background-color: beige;
-		width: auto;
-		height: 4rem;
+		border: 0px;
+		border-radius: 10rem;
+		background-color: indianred;
+		width: 8rem;
+		height: 8rem;
+	}
+
+	.increase-button:active {
+		background-color: brown;
+	}
+
+	.game-button {
+		border: 0px;
+		font-size: 1rem;
+	}
+	.end-game-button {
+		background-color: bisque;
+	}
+	.restart-button {
+		background-color: chartreuse;
 	}
 </style>
