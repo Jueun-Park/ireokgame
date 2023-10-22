@@ -1,7 +1,9 @@
 <script>
 	import '../global.css';
 
+	let ireok = 100000000;
 	let number = 0;
+	let logUnit = Math.log(ireok);
 	let gameEnded = false;
 	let isCounting = false;
 	let touchCount = 0;
@@ -11,6 +13,8 @@
 
 	let intervalID;
 
+	let calculateFunctions = [(t) => Math.exp(logUnit * t), (t) => Math.pow(t, t)];
+
 	function startIncreasing(e) {
 		touchCount++;
 		if (isCounting) {
@@ -18,7 +22,19 @@
 		}
 
 		isCounting = true;
-		intervalID = setInterval(() => number++, 100);
+
+		let maxTime = Math.random() * 1.9 + 0.1;
+		let funcNum = Math.floor(Math.random() * calculateFunctions.length);
+		let startTime = Date.now();
+		intervalID = setInterval(() => {
+			if (number < ireok) {
+				let scaledTime = (Date.now() - startTime) / 1000 / maxTime;
+				number = Math.floor(calculateFunctions[funcNum](scaledTime));
+			} else {
+				number = ireok;
+			}
+		}, 16);
+
 		return;
 	}
 
@@ -66,7 +82,7 @@
 	{/if}
 
 	{#if !gameEnded}
-		<div class="counter">
+		<div class={isCounting ? 'counter counter-counting' : 'counter counter-default'}>
 			{number}
 		</div>
 
@@ -78,18 +94,18 @@
 		/>
 
 		<button class="game-button end-game-button" on:click={endGame}>게임 끝내기</button>
+
+		<div>
+			players:
+			{#each players as player}
+				{player.id},
+			{/each}
+		</div>
 	{/if}
 
 	{#if gameEnded}
 		<button class="game-button restart-button" on:click={restart}>게임 다시하기</button>
 	{/if}
-
-	<div>
-		players:
-		{#each players as player}
-			{player.id},
-		{/each}
-	</div>
 </div>
 
 <style>
@@ -103,11 +119,19 @@
 	}
 
 	.counter {
-		width: 10rem;
-		background-color: azure;
+		width: 16rem;
 		font-family: 'Sometype Mono', monospace;
 		font-size: 40px;
 		text-align: right;
+	}
+
+	.counter-default {
+		background-color: azure;
+	}
+
+	.counter-counting {
+		background-color: cadetblue;
+		color: whitesmoke;
 	}
 
 	.increase-button {
@@ -124,6 +148,7 @@
 	}
 
 	.game-button {
+		margin: 2rem;
 		border: 0px;
 		font-size: 1rem;
 	}
@@ -131,6 +156,6 @@
 		background-color: bisque;
 	}
 	.restart-button {
-		background-color: chartreuse;
+		background-color: palegreen;
 	}
 </style>
