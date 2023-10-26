@@ -134,6 +134,7 @@
 				on:pointerdown|preventDefault|nonpassive={startIncreasing}
 				on:pointerleave|preventDefault|nonpassive={stopIncreasing}
 				on:touchmove|preventDefault|nonpassive|stopPropagation={(e) => {}}
+				on:contextmenu|preventDefault
 			/>
 
 			<button class="game-button end-game-button" on:click={endGame}>게임 끝내기</button>
