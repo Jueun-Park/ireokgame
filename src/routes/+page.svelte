@@ -177,6 +177,7 @@
 				class={isFreeze ? 'increase-button-freeze' : 'increase-button'}
 				on:pointerdown|preventDefault|nonpassive={isFreeze ? () => {} : startIncreasing}
 				on:pointerleave|preventDefault|nonpassive={isFreeze ? () => {} : stopIncreasing}
+				on:pointerup|preventDefault|nonpassive={isFreeze ? () => {} : stopIncreasing}
 				on:touchmove|preventDefault|nonpassive|stopPropagation={isFreeze ? () => {} : (e) => {}}
 				on:contextmenu|preventDefault
 			/>
