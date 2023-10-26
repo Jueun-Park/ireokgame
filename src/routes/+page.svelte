@@ -1,5 +1,6 @@
 <script>
 	import '../global.css';
+	import { words } from '../lib/words';
 
 	let ireok = 100000000;
 	let logUnit = Math.log(ireok);
@@ -24,7 +25,8 @@
 	let intervalID;
 
 	let players = [];
-	let playerID = 0;
+	let playerID = 1;
+	let nowNickname = getPlayerNickname();
 
 	let losers = [];
 	let winners = [];
@@ -66,7 +68,8 @@
 		clearInterval(intervalID);
 		let player = {
 			number: number,
-			id: playerID
+			id: playerID,
+			nickname: nowNickname
 		};
 		players = [...players, player];
 		isCounting = false;
@@ -81,6 +84,7 @@
 			isFreeze = false;
 			number = 0;
 			playerID++;
+			nowNickname = getPlayerNickname();
 		}, 1000);
 	}
 
@@ -94,7 +98,7 @@
 	function restart() {
 		stopIncreasing();
 		gameEnded = false;
-		playerID = 0;
+		playerID = 1;
 		players = [];
 		losers = [];
 		winners = [];
@@ -137,6 +141,12 @@
 		ws.sort((a, b) => a.id - b.id);
 		return { losers: ls, winners: ws };
 	}
+
+	function getPlayerNickname() {
+		let adjNum = Math.floor(Math.random() * words.adjectives.length);
+		let nounNum = Math.floor(Math.random() * words.nouns.length);
+		return words.adjectives[adjNum] + ' ' + words.nouns[nounNum];
+	}
 </script>
 
 <body>
@@ -146,11 +156,11 @@
 		{#if !gameEnded}
 			{#if isFreeze}
 				<h2>
-					{playerID}번 사람이 고른 숫자
+					{playerID}번 {nowNickname}의 숫자
 				</h2>
 			{:else}
 				<h2>
-					{playerID}번 사람 차례
+					{playerID}번 {nowNickname}의 차례
 				</h2>
 			{/if}
 			<div
@@ -186,13 +196,13 @@
 				<div>
 					<h2>걸린 사람:</h2>
 					{#each losers as loser}
-						<div>사람 {loser.id}: {loser.number}<br /></div>
+						<div>{loser.id}번 {loser.nickname}: {loser.number}<br /></div>
 					{/each}
 				</div>
 				<div>
 					<h2>이긴 사람:</h2>
 					{#each winners as winner}
-						<div>사람 {winner.id}: {winner.number}<br /></div>
+						<div>{winner.id}번 {winner.nickname}: {winner.number}<br /></div>
 					{/each}
 				</div>
 			</div>
