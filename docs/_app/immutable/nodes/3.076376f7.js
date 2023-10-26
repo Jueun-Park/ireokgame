@@ -1,6 +1,0 @@
-import{s as a,n as i}from"../chunks/scheduler.3e079686.js";import{S as n,i as r,g as h,h as c,x as _,k as m,a as p,f as u}from"../chunks/index.126b5d0e.js";/* empty css                       */function d(s){let l,t=`<h1>게임 방법</h1> <h2>게임 준비</h2> <ol><li>한 사람이 일억게임을 켠다</li> <li>게임을 켠 기기를 돌리면서 차례를 넘긴다</li></ol> <h2>차례에 하는 일</h2> <ol><li>각자 차례에 버튼을 꾹 눌렀다 떼서 수를 고른다</li> <ul><li>버튼을 누르면 수가 올라가고, 뗐을 때 멈추는 수가 그 사람이 고른 수가 된다</li></ul> <li>내가 숫자를 고르는 동안에는 나만 본다</li> <li>고를 수 있는 수는 영부터 일억까지이다</li> <li>수가 올라가는 속도는 무작위이다</li> <li>수를 골랐으면 다음 사람에게 차례를 넘긴다</li> <li>모두 수를 골랐으면 게임을 끝낸다</li></ol> <h2>걸린 사람</h2> <ol><li>보통의 경우 가장 큰 수를 고른 사람이 걸린다
-			<ol><li>하지만 일억을 고른 사람이 여럿이면, 그 사람들은 걸리지 않는다</li> <li>그러나 모두가 일억을 고르면 모두 걸린다</li></ol></li> <li>특별한 경우:
-			<ol><li>고른 사람이 여럿인 수가 있으면 가장 큰 수를 고른 사람이 아니라 같은 수를 고른 사람들이
-					걸린다</li> <li>고른 사람이 여럿인 수가 두 개 이상이면, 그 중 가장 작은 수를 고른 사람들만 걸린다</li></ol></li></ol>
-
-	(끝)`;return{c(){l=h("body"),l.innerHTML=t,this.h()},l(e){l=c(e,"BODY",{class:!0,"data-svelte-h":!0}),_(l)!=="svelte-98rxl"&&(l.innerHTML=t),this.h()},h(){m(l,"class","svelte-1eg0vsa")},m(e,o){p(e,l,o)},p:i,i,o:i,d(e){e&&u(l)}}}class x extends n{constructor(l){super(),r(this,l,null,d,a,{})}}export{x as component};
