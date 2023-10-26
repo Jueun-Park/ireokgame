@@ -4,7 +4,16 @@
 	let ireok = 100000000;
 	let logUnit = Math.log(ireok);
 
-	let calculateFunctions = [(t) => Math.exp(logUnit * t), (t) => Math.pow(t, t)];
+	const calculateFunctions = [
+		(t) => Math.exp(logUnit * t),
+		(t) => Math.pow(Math.pow(t, t), t),
+		(t) => t
+	];
+	const calFuncMaxTimeRange = [
+		{ e: 0.1, scale: 1.9 },
+		{ e: 0.1, scale: 0.9 },
+		{ e: 0.01, scale: 0.49 }
+	];
 
 	let number = 0;
 	let gameEnded = false;
@@ -26,8 +35,9 @@
 
 		isCounting = true;
 
-		let maxTime = Math.random() * 1.9 + 0.1;
 		let funcNum = Math.floor(Math.random() * calculateFunctions.length);
+		let maxTime =
+			Math.random() * calFuncMaxTimeRange[funcNum].scale + calFuncMaxTimeRange[funcNum].e;
 		let startTime = Date.now();
 		intervalID = setInterval(() => {
 			if (number < ireok) {
