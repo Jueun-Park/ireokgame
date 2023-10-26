@@ -156,11 +156,11 @@
 		{#if !gameEnded}
 			{#if isFreeze}
 				<h2>
-					{playerID}번 {nowNickname}의 숫자
+					{playerID}번 <span class="nickname">{nowNickname}</span>의 숫자
 				</h2>
 			{:else}
 				<h2>
-					{playerID}번 {nowNickname}의 차례
+					{playerID}번 <span class="nickname">{nowNickname}</span>의 차례
 				</h2>
 			{/if}
 			<div
@@ -184,10 +184,8 @@
 			<button class="game-button end-game-button" on:click={endGame}>게임 끝내기</button>
 
 			<div>
-				고른 사람들:
-				{#each players as player}
-					{player.id},
-				{/each}
+				고른 사람:
+				{playerID - 1} 명
 			</div>
 		{/if}
 
@@ -196,13 +194,17 @@
 				<div>
 					<h2>걸린 사람:</h2>
 					{#each losers as loser}
-						<div>{loser.id}번 {loser.nickname}: {loser.number}<br /></div>
+						<div>
+							{loser.id}번 <span class="nickname">{loser.nickname}</span>: {loser.number}<br />
+						</div>
 					{/each}
 				</div>
 				<div>
 					<h2>이긴 사람:</h2>
 					{#each winners as winner}
-						<div>{winner.id}번 {winner.nickname}: {winner.number}<br /></div>
+						<div>
+							{winner.id}번 <span class="nickname">{winner.nickname}</span>: {winner.number}<br />
+						</div>
 					{/each}
 				</div>
 			</div>
@@ -213,11 +215,6 @@
 </body>
 
 <style>
-	body {
-		font-family: 'Noto Sans KR', sans-serif;
-		color: dimgray;
-	}
-
 	.game-container {
 		user-select: none;
 		display: flex;
@@ -282,5 +279,9 @@
 	}
 	.restart-button {
 		background-color: palegreen;
+	}
+
+	.nickname {
+		text-decoration: underline dotted;
 	}
 </style>
