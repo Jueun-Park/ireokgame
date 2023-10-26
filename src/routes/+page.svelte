@@ -16,6 +16,8 @@
 	];
 
 	let number = 0;
+	let isFreeze = false;
+
 	let gameEnded = false;
 	let isCounting = false;
 	let touchCount = 0;
@@ -55,6 +57,8 @@
 		if (!isCounting) {
 			return;
 		}
+		freezeGame();
+
 		if (touchCount > 1) {
 			touchCount--;
 			return;
@@ -65,11 +69,19 @@
 			id: playerID
 		};
 		players = [...players, player];
-		playerID++;
-		number = 0;
 		isCounting = false;
 		touchCount--;
+
 		return;
+	}
+
+	function freezeGame() {
+		isFreeze = true;
+		setTimeout(() => {
+			isFreeze = false;
+			number = 0;
+			playerID++;
+		}, 1000);
 	}
 
 	function endGame() {
@@ -132,18 +144,30 @@
 		<h1>일억게임</h1>
 
 		{#if !gameEnded}
-			<h2>
-				{playerID}번 차례
-			</h2>
-			<div class={isCounting ? 'counter counter-counting' : 'counter counter-default'}>
+			{#if isFreeze}
+				<h2>
+					{playerID}번 사람이 고른 숫자
+				</h2>
+			{:else}
+				<h2>
+					{playerID}번 사람 차례
+				</h2>
+			{/if}
+			<div
+				class={isCounting
+					? 'counter counter-counting'
+					: isFreeze
+					? 'counter counter-freeze'
+					: 'counter counter-default'}
+			>
 				{number}
 			</div>
 
 			<button
-				class="increase-button"
-				on:pointerdown|preventDefault|nonpassive={startIncreasing}
-				on:pointerleave|preventDefault|nonpassive={stopIncreasing}
-				on:touchmove|preventDefault|nonpassive|stopPropagation={(e) => {}}
+				class={isFreeze ? 'increase-button-freeze' : 'increase-button'}
+				on:pointerdown|preventDefault|nonpassive={isFreeze ? () => {} : startIncreasing}
+				on:pointerleave|preventDefault|nonpassive={isFreeze ? () => {} : stopIncreasing}
+				on:touchmove|preventDefault|nonpassive|stopPropagation={isFreeze ? () => {} : (e) => {}}
 				on:contextmenu|preventDefault
 			/>
 
@@ -209,6 +233,11 @@
 		color: whitesmoke;
 	}
 
+	.counter-freeze {
+		background-color: indianred;
+		color: whitesmoke;
+	}
+
 	.increase-button {
 		margin: 1rem;
 		border: 0px;
@@ -222,6 +251,14 @@
 		background-color: brown;
 	}
 
+	.increase-button-freeze {
+		margin: 1rem;
+		border: 0px;
+		border-radius: 10rem;
+		background-color: cadetblue;
+		width: 8rem;
+		height: 8rem;
+	}
 	.game-button {
 		font-family: 'Noto Sans KR', sans-serif;
 		color: dimgray;
